@@ -21,7 +21,18 @@ public class BIOOperations {
      * Pass in the sequence we wish to operate on.
      * @param dna_strand
      */
-    public BIOOperations(String dna_strand){
+    public static BIOOperations newInstance(String sequence){
+
+        return new BIOOperations(sequence);
+
+    }
+
+
+    /**
+     * Private constructor.....use the newInstance method to use.
+     * @param dna_strand
+     */
+    private BIOOperations(String dna_strand){
 
         mDNAStrand = dna_strand;
 
@@ -35,7 +46,7 @@ public class BIOOperations {
      * @return count
      */
 
-    public int getPatternOccurence(String pattern){
+    public int getPatternOccurrence(String pattern){
 
         int lastIndex = 0;
         int count = 0;
@@ -57,6 +68,13 @@ public class BIOOperations {
 
     }
 
+    /**
+     * This method will look for maximum occurrences of patterns of k length.
+     * These patterns are known as K-mers.
+     * @param k
+     * @return HashSet of most frequently found patterns of k length.
+     */
+
     public Set<String> getKmers(int k){
 
         /**
@@ -77,7 +95,7 @@ public class BIOOperations {
 
             String pattern = mDNAStrand.substring(i,k);
 
-            count = this.getPatternOccurence(pattern);
+            count = this.getPatternOccurrence(pattern);
 
                 /**
                  * IF we find a count greater than zero add it to the list.
@@ -85,8 +103,10 @@ public class BIOOperations {
                 if(count > 0 ){
 
                         mFreq.add(new BIOKmer(pattern,count));
-                        mPatternSet.add(pattern);
-                        if( count >= max_count) {
+                    /**
+                     * Keep track of our max occurrence.
+                     */
+                    if( count >= max_count) {
                             max_count = count ;
                         }
             }
