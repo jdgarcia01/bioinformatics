@@ -12,18 +12,18 @@ import java.util.Set;
 public class BIOOperations {
 
     private String mDNAStrand;
-    private String[] mKmer;
     private Set<BIOKmer> mFreq;
-    private Set<BIOKmer> mfinalResult;
     private Set<String> mPatternSet;
     private Set<String> mTmpPattern;
 
 
-
+    /**
+     * Pass in the sequence we wish to operate on.
+     * @param dna_strand
+     */
     public BIOOperations(String dna_strand){
 
         mDNAStrand = dna_strand;
-
 
 
     }
@@ -67,7 +67,6 @@ public class BIOOperations {
 
 
         mFreq = new HashSet<>();
-        mfinalResult = new HashSet<>();
         mPatternSet = new HashSet<>();
         mTmpPattern = new HashSet<>();
         int count = 0;
@@ -84,9 +83,6 @@ public class BIOOperations {
                  * IF we find a count greater than zero add it to the list.
                  */
                 if(count > 0 ){
-
-
-                    System.out.println("We found occurence greater than zero " + count + " pattern:" + pattern);
 
                         mFreq.add(new BIOKmer(pattern,count));
                         mPatternSet.add(pattern);
@@ -108,39 +104,9 @@ public class BIOOperations {
             }
         }
 
-
-
         return mTmpPattern;
 
     }
-
-
-
-
-    public int search(String pattern){
-
-        int j, M = pattern.length();
-        int i, N = mDNAStrand.length();
-
-        for( i = 0, j = 0; i < N && j < M; i++){
-
-            if(mDNAStrand.charAt(i) == pattern.charAt(j)){
-                j++;
-            } else {
-                i -= j; j = 0;
-            }
-
-        }
-        if(j == M) return i - M; // Found.
-        else {
-            return N; // Not found.
-        }
-
-
-
-    }
-
-
 
 
 }
