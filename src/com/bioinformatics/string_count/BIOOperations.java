@@ -13,9 +13,8 @@ public class BIOOperations {
 
     private String mDNAStrand;
     private Set<BIOKmer> mFreq;
-    private Set<String> mPatternSet;
     private Set<String> mTmpPattern;
-
+    private String[] mConvertedList;
 
     /**
      * Pass in the sequence we wish to operate on.
@@ -85,7 +84,6 @@ public class BIOOperations {
 
 
         mFreq = new HashSet<>();
-        mPatternSet = new HashSet<>();
         mTmpPattern = new HashSet<>();
         int count = 0;
 
@@ -128,5 +126,42 @@ public class BIOOperations {
 
     }
 
+
+    private String[] convertNumberToPattern(int[] list_to_convert){
+
+         mConvertedList = new String[list_to_convert.length];
+
+        for(int i = 0; i < list_to_convert.length; i++){
+           switch(list_to_convert[i]){
+               case 0: mConvertedList[i] = "A"; break;
+               case 1: mConvertedList[i] = "C"; break;
+               case 2: mConvertedList[i] = "G"; break;
+               case 3: mConvertedList[i] = "T"; break;
+               default: System.out.println("Bad input");
+           }
+
+        }
+         return mConvertedList;
+
+    }
+
+    public String[] numberToPattern(int number, int len, int base){
+
+        String[] pattern = new String[len];
+        int[] capture_remainder = new int[len];
+        int i = 0;
+
+         int remainder = 0;
+         while(number != 0){
+              remainder = number % base;
+              number = number / base;
+              capture_remainder[i] = remainder;
+              i++;
+         }
+
+         pattern = this.convertNumberToPattern(capture_remainder);
+
+          return pattern;
+    }
 
 }

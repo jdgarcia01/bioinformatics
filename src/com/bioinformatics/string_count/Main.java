@@ -31,6 +31,14 @@ public class Main {
 
         System.out.println("Most Frequent K-mer: "+ freq);
 
+        String[] result = bio.numberToPattern(5437,8,4);
+
+        
+        for( String i : result){
+            System.out.println(i);
+        }
+
+
         bio = null;
     }
 }
