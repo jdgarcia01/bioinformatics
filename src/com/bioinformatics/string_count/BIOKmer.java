@@ -8,6 +8,8 @@ public class BIOKmer {
 
     private String mKmerPattern;
     private int    mKmerCount;
+    private int[]  mPatternToNumber;
+
 
 
     public BIOKmer(String pattern, int count){
@@ -15,6 +17,13 @@ public class BIOKmer {
         mKmerPattern = pattern;
         mKmerCount   = count;
 
+
+    }
+    public BIOKmer(String pattern, int count, int[] number){
+
+        mKmerPattern = pattern;
+        mKmerCount   = count;
+        mPatternToNumber = number;
 
     }
 
@@ -33,6 +42,19 @@ public class BIOKmer {
         return (this.getmKmerPattern() + " " + this.mKmerCount);
 
 
+    }
+
+
+    public String getmPatternToNumber(){
+
+        System.out.println();
+        System.out.println();
+        for(Integer i : mPatternToNumber){
+
+            System.out.println(i);
+
+        }
+        return mPatternToNumber.toString();
     }
 
 }

@@ -4,9 +4,7 @@ package com.bioinformatics.string_count;
  * Created by johngarcia on 4/20/17.
  */
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 
 public class BIOOperations {
@@ -15,6 +13,8 @@ public class BIOOperations {
     private Set<BIOKmer> mFreq;
     private Set<String> mTmpPattern;
     private String[] mConvertedList;
+    private List<BIOKmer> frequencyArray = new ArrayList<BIOKmer>();
+    private int[] mFrequencyNumber;
 
     /**
      * Pass in the sequence we wish to operate on.
@@ -58,9 +58,7 @@ public class BIOOperations {
             if(lastIndex != -1){
                 count++;
                 lastIndex++;
-
             }
-
 
         }
         return count;
@@ -69,7 +67,7 @@ public class BIOOperations {
 
     /**
      * This method will look for maximum occurrences of patterns of k length.
-     * These patterns are known as K-mers.
+     * These patterns are known as K-mers. This method will not give duplicates.
      * @param k
      * @return HashSet of most frequently found patterns of k length.
      */
@@ -94,6 +92,18 @@ public class BIOOperations {
             String pattern = mDNAStrand.substring(i,k);
 
             count = this.getPatternOccurrence(pattern);
+                /**
+                 * We found a k-mer and now convert it from pattern A,C,G,T => 0,1,2,3
+                 */
+                int[] pattern_to_number = this.patternToNumber(pattern);
+                System.out.println("The occurence is: " + count + " pattern: " + pattern + " kmer number: " + java.util.Arrays.toString(pattern_to_number));
+
+                /**
+                 * Create a new instance of a BIOKmer with pattern, frequency count and pattern number.
+                 */
+
+                frequencyArray.add(new BIOKmer(pattern,count, pattern_to_number));
+
 
                 /**
                  * IF we find a count greater than zero add it to the list.
@@ -119,6 +129,7 @@ public class BIOOperations {
 
             if( tmp.getmKmerCount() == max_count){
                 mTmpPattern.add(tmp.getmKmerPattern());
+                System.out.println(tmp.getmKmerCount() + " K-mer: " + tmp.getmKmerPattern() );
             }
         }
 
@@ -162,6 +173,63 @@ public class BIOOperations {
          pattern = this.convertNumberToPattern(capture_remainder);
 
           return pattern;
+    }
+
+    /**
+     * Convert a string pattern to its base 4 number;
+     * Example: A C G T = 0,1,2,3.
+     * @param pattern
+     * @return
+     */
+    public int[] patternToNumber(String pattern){
+
+        int[] toNumber = new int[pattern.length()];
+
+        for(int i = 0; i < pattern.length(); i++){
+            switch (pattern.charAt(i)){
+                case 'A': toNumber[i] = 0; break;
+                case 'C': toNumber[i] = 1; break;
+                case 'G': toNumber[i] = 2; break;
+                case 'T': toNumber[i] = 3; break;
+                default: System.out.println("Bad input");
+            }
+        }
+
+       return toNumber;
+
+    }
+
+    public int[] computingFrequency(String text, int k){
+
+        int[] result = new int[4^k];
+        Set<String> pattern = new HashSet<String>();
+        int num = 0;
+
+        for(int i = 0; i < result.length; i++){
+            result[i] = 0;
+        }
+
+        for(int i = 0; i < text.length() - k; i++){
+        pattern = getKmers(k);
+
+
+
+        }
+
+        return result;
+
+
+    }
+
+    public void getmFrequencyNumber(){
+
+
+        for(int i = 0; i < frequencyArray.size(); i++){
+            frequencyArray.get(i).getmPatternToNumber();
+        }
+
+
+
     }
 
 }

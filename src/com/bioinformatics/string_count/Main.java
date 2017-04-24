@@ -5,7 +5,7 @@ package com.bioinformatics.string_count;
  * patterns in a DNA string.  This program can handle overlaps.
  */
 import java.util.Set;
-import java.util.HashSet;
+
 
 
 
@@ -14,30 +14,29 @@ public class Main {
     public static void main(String[] args) {
 
        Set<String> freq;
-       final String pattern = "TTTTA";
+       final String pattern = "AC";
        final String dna_string = "GTATCTAGCGACGCGGTGAAGTAACTAGCTGTCTACGGTATCTAGCGCTGTCTACGGACGCGGTGGACGCGGTGGTATCTAGCAAGTAACTAGTATCTAGCAAGTAACTAAAGTAACTAAAGTAACTAGCTGTCTACGGCTGTCTACGAGCCATAAGCTGTCTACGAGCCATAAGCTGTCTACGAGCCATAAGTATCTAGCAAGTAACTAGCTGTCTACGAAGTAACTAGTATCTAGCGTATCTAGCGCTGTCTACGGACGCGGTGGACGCGGTGGCTGTCTACGGTATCTAGCGCTGTCTACGAAGTAACTAAAGTAACTAGTATCTAGCGACGCGGTGGACGCGGTGAGCCATAAGTATCTAGCGTATCTAGCGTATCTAGCGCTGTCTACGAAGTAACTAGTATCTAGCGTATCTAGCAGCCATAAGCTGTCTACGGCTGTCTACGAGCCATAAGACGCGGTGAAGTAACTAGTATCTAGCGTATCTAGCAAGTAACTAAAGTAACTAAGCCATAAGTATCTAGCGTATCTAGCAAGTAACTAGCTGTCTACGGCTGTCTACGGTATCTAGCAAGTAACTAGTATCTAGCGCTGTCTACGAGCCATAAGTATCTAGCGCTGTCTACGGACGCGGTGAGCCATAAGACGCGGTGGTATCTAGCGCTGTCTACGAAGTAACTAGCTGTCTACGGACGCGGTGGCTGTCTACGGCTGTCTACGAAGTAACTAGACGCGGTGAAGTAACTAAGCCATAAAAGTAACTAGACGCGGTGGCTGTCTACGAGCCATAAGACGCGGTGGACGCGGTGAAGTAACTAAGCCATAAGACGCGGTGAAGTAACTAGTATCTAGCGCTGTCTACGGCTGTCTACGAAGTAACTAGCTGTCTACG";
-       int count = 0;
+        int len = 7;
+
 
        BIOOperations bio = BIOOperations.newInstance(dna_string);
 
-
-        count = bio.getPatternOccurrence(pattern);
-
-
-        System.out.println("Number of Occurences: " + count + " And Pattern: " + pattern);
+      //  System.out.println(bio.getPatternOccurrence(pattern));
 
 
-        freq = bio.getKmers(14);
+        freq = bio.getKmers(len);
 
-        System.out.println("Most Frequent K-mer: "+ freq);
 
-        String[] result = bio.numberToPattern(5437,8,4);
 
-        
-        for( String i : result){
-            System.out.println(i);
-        }
+    //    System.out.println("[*] Most Frequent K-mer of length: " + len +" : "+ freq);
 
+     //   int[] result = bio.patternToNumber("ACGTTTTTTTAACACTGGGT");
+
+     //   for(Integer i : result){
+     //       System.out.print(i);
+     //   }
+
+      //  bio.getmFrequencyNumber();
 
         bio = null;
     }
