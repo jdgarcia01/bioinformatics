@@ -8,7 +8,7 @@ public class BIOKmer {
 
     private String mKmerPattern;
     private int    mKmerCount;
-    private int[]  mPatternToNumber;
+    private int  mPatternToNumber;
 
 
 
@@ -19,7 +19,20 @@ public class BIOKmer {
 
 
     }
-    public BIOKmer(String pattern, int count, int[] number){
+
+    public boolean equals(Object o){
+
+        return ((BIOKmer) o).mKmerPattern == this.mKmerPattern;
+
+    }
+
+    public int hashCode(){
+
+        return this.mKmerPattern.length();
+
+    }
+
+    public BIOKmer(String pattern, int count, int number){
 
         mKmerPattern = pattern;
         mKmerCount   = count;
@@ -45,16 +58,9 @@ public class BIOKmer {
     }
 
 
-    public String getmPatternToNumber(){
+    public int getmPatternToNumber(){
 
-        System.out.println();
-        System.out.println();
-        for(Integer i : mPatternToNumber){
-
-            System.out.println(i);
-
-        }
-        return mPatternToNumber.toString();
+        return mPatternToNumber;
     }
 
 }
