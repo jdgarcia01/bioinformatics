@@ -24,6 +24,9 @@ public class BIOOperations {
      * Pass in the sequence we wish to operate on.
      * @param dna_strand
      */
+
+
+
     public static BIOOperations newInstance(String sequence){
 
         return new BIOOperations(sequence);
@@ -69,6 +72,27 @@ public class BIOOperations {
 
     }
 
+    public List<Integer> getPatternOccueencePositions(String pattern){
+
+        int lastIndex = 0;
+
+        List pos = new ArrayList<Integer>();
+
+        while(lastIndex != -1){
+
+            lastIndex = mDNAStrand.indexOf(pattern, lastIndex);
+            if(lastIndex != -1) {
+                pos.add(lastIndex);
+
+                System.out.print(lastIndex + " ");
+                lastIndex++;
+            }
+
+        }
+
+        return pos;
+
+    }
     /**
      * This method will look for maximum occurrences of patterns of k length.
      * These patterns are known as K-mers. This method will not give duplicates.
