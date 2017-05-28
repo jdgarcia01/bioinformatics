@@ -17,6 +17,7 @@ public class BIOOperations {
     private Set<BIOKmer> mFreq;
     private Set<String> mTmpPattern;
     private String[] mConvertedList;
+    private HashMap<Integer,String>frequency_map = new HashMap<>();
     private List<BIOKmer> frequencyArray = new ArrayList<BIOKmer>();
     private int[] mFrequencyNumber;
 
@@ -28,6 +29,7 @@ public class BIOOperations {
 
 
     public static BIOOperations newInstance(String sequence){
+
 
         return new BIOOperations(sequence);
 
@@ -114,7 +116,6 @@ public class BIOOperations {
         int count = 0;
 
 
-        System.out.println(mDNAStrand);
             for(int i = 0; i <  mDNAStrand.length() && k <= mDNAStrand.length() ; i++,k++) {
 
             String pattern = mDNAStrand.substring(i,k);
@@ -124,8 +125,9 @@ public class BIOOperations {
                  * We found a k-mer and now convert it from pattern A,C,G,T => 0,1,2,3
                  */
                 int pattern_to_number = this.patternToNumber(pattern);
-                System.out.println("The occurence is: " + count + " pattern: " + pattern + " kmer pattern to number: " + pattern_to_number);
-
+                frequency_map.put(count,pattern );
+             //   System.out.println("The occurence is: " + count + " pattern: " + pattern + " kmer pattern to number: " + pattern_to_number);
+                  System.out.print(".");
                 /**
                  * Create a new instance of a BIOKmer with pattern, frequency count and pattern number.
                  */
@@ -274,7 +276,9 @@ public class BIOOperations {
 
         for( BIOKmer k : frequencyArray){
 
-            System.out.println("Kmer count: " +k.getmKmerCount() + " Kmer Number: " + k.getmPatternToNumber() + " Pattern: " + k.getmKmerPattern());
+            if(k.getmKmerCount()  >= 3 ) {
+                System.out.println("Kmer count: " + k.getmKmerCount() + " Kmer Number: " + k.getmPatternToNumber() + " Pattern: " + k.getmKmerPattern());
+            }
 
 
         }
@@ -319,6 +323,11 @@ public class BIOOperations {
 
         return finalComplimentGenome;
 
+    }
+
+    public HashMap<Integer,String> getFrequencyMap(){
+
+        return frequency_map;
     }
 
 
