@@ -33,13 +33,20 @@ public class Main {
         } */
       String dna_string = "CGGACTCGACAGATGTGAAGAACGACAATGTGAAGACTCGACACGACAGAGTGAAGAGAAGAGGAAACATTGTAA";
 
+
+
+
       BIOOperations bio = BIOOperations.newInstance(dna_string.toUpperCase());
+
+        bio.findPatternClumps(15, "ACA", 1);
 
         Set<String> kmer_set = bio.getKmers(len);
 
-        for (String i: kmer_set
-             ) {
+        for (String i: kmer_set) {
             System.out.println("[*] Found distinct Kmers: " + i);
+
+
+
         }
 
 

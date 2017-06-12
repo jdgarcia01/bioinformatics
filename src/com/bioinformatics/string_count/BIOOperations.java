@@ -75,7 +75,6 @@ public class BIOOperations {
     }
 
     public void patternCount(String pattern){
-
         int lastIndex = 0;
         int count = 0;
         ArrayList<Integer> pos_list = new ArrayList<>();
@@ -127,7 +126,7 @@ public class BIOOperations {
                 count++;
                 if(count > 2){
 
-                //    System.out.println("[*] The start position is: " + lastIndex + " of pattern: " + pattern);
+                    //    System.out.println("[*] The start position is: " + lastIndex + " of pattern: " + pattern);
                     pos_list.add(lastIndex);
                 }
                 lastIndex++;
@@ -137,7 +136,7 @@ public class BIOOperations {
         if( pos_list.size() > 0) {
             System.out.println("[*] The clump L is: " + pos_list.get(0) + " to " + pos_list.get(pos_list.size() - 1));
         }
-            return count;
+        return count;
 
     }
 
@@ -153,7 +152,7 @@ public class BIOOperations {
 
             pos = mDNAStrand.indexOf(pattern, lastIndex);
             if(pos != -1) {
-                    System.out.println("[*] Start of position: " + pos);
+                System.out.println("[*] Start of position: " + pos);
                 lastIndex++;
 
             }
@@ -180,9 +179,9 @@ public class BIOOperations {
             lastIndex = mDNAStrand.indexOf(pattern, lastIndex);
             if(lastIndex != -1) {
                 pos.add(lastIndex);
-                  if(start_of_clump == 0){
-                      start_of_clump = lastIndex;
-                  }
+                if(start_of_clump == 0){
+                    start_of_clump = lastIndex;
+                }
                 System.out.print(lastIndex + " ");
                 lastIndex++;
             }
@@ -214,48 +213,48 @@ public class BIOOperations {
         int count = 0;
 
 
-            for(int i = 0; i <  mDNAStrand.length() && k <= mDNAStrand.length() ; i++,k++) {
+        for(int i = 0; i <  mDNAStrand.length() && k <= mDNAStrand.length() ; i++,k++) {
 
             String pattern = mDNAStrand.substring(i,k);
 
             count = this.getPatternOccurrence(pattern);
-                /**
-                 * We found a k-mer and now convert it from pattern A,C,G,T => 0,1,2,3
-                 */
-                int pattern_to_number = this.patternToNumber(pattern);
-                this.patternCount(pattern);
-                if(filter_map.add(pattern) == true) {
+            /**
+             * We found a k-mer and now convert it from pattern A,C,G,T => 0,1,2,3
+             */
+            int pattern_to_number = this.patternToNumber(pattern);
+            this.patternCount(pattern);
+            if(filter_map.add(pattern) == true) {
                 //    System.out.println("Adding pattern: " + pattern);
-                    frequency_map.put(count, pattern);
+                frequency_map.put(count, pattern);
+            }
+            //   System.out.println("The occurence is: " + count + " pattern: " + pattern + " kmer pattern to number: " + pattern_to_number);
+            //     System.out.print(".");
+
+            /**
+             * Create a new instance of a BIOKmer with pattern, frequency count and pattern number.
+             */
+
+            frequencyArray.add(new BIOKmer(pattern,count, pattern_to_number));
+
+
+            /**
+             * IF we find a count greater than zero add it to the list.
+             */
+            if(count > 0 ){
+
+                mFreq.add(new BIOKmer(pattern,count));
+                /**
+                 * Keep track of our max occurrence.
+                 */
+                if( count >= max_count) {
+                    max_count = count ;
                 }
-             //   System.out.println("The occurence is: " + count + " pattern: " + pattern + " kmer pattern to number: " + pattern_to_number);
-             //     System.out.print(".");
-
-                /**
-                 * Create a new instance of a BIOKmer with pattern, frequency count and pattern number.
-                 */
-
-                frequencyArray.add(new BIOKmer(pattern,count, pattern_to_number));
-
-
-                /**
-                 * IF we find a count greater than zero add it to the list.
-                 */
-                if(count > 0 ){
-
-                        mFreq.add(new BIOKmer(pattern,count));
-                    /**
-                     * Keep track of our max occurrence.
-                     */
-                    if( count >= max_count) {
-                            max_count = count ;
-                        }
             }
 
 
         }
 
-     Iterator<BIOKmer> bi = mFreq.iterator();
+        Iterator<BIOKmer> bi = mFreq.iterator();
         while(bi.hasNext()){
 
             BIOKmer tmp = bi.next();
@@ -273,19 +272,19 @@ public class BIOOperations {
 
     private String[] convertNumberToPattern(int[] list_to_convert){
 
-         mConvertedList = new String[list_to_convert.length];
+        mConvertedList = new String[list_to_convert.length];
 
         for(int i = 0; i < list_to_convert.length; i++){
-           switch(list_to_convert[i]){
-               case 0: mConvertedList[i] = "A"; break;
-               case 1: mConvertedList[i] = "C"; break;
-               case 2: mConvertedList[i] = "G"; break;
-               case 3: mConvertedList[i] = "T"; break;
-               default: System.out.println("Bad input");
-           }
+            switch(list_to_convert[i]){
+                case 0: mConvertedList[i] = "A"; break;
+                case 1: mConvertedList[i] = "C"; break;
+                case 2: mConvertedList[i] = "G"; break;
+                case 3: mConvertedList[i] = "T"; break;
+                default: System.out.println("Bad input");
+            }
 
         }
-         return mConvertedList;
+        return mConvertedList;
 
     }
 
@@ -295,26 +294,26 @@ public class BIOOperations {
         int[] capture_remainder = new int[len];
         int i = 0;
 
-         int remainder = 0;
-         while(number != 0){
-              remainder = number % base;
-              number = number / base;
-              capture_remainder[i] = remainder;
-              i++;
-         }
+        int remainder = 0;
+        while(number != 0){
+            remainder = number % base;
+            number = number / base;
+            capture_remainder[i] = remainder;
+            i++;
+        }
 
-         pattern = this.convertNumberToPattern(capture_remainder);
+        pattern = this.convertNumberToPattern(capture_remainder);
 
-          return pattern;
+        return pattern;
     }
 
     public int convertToBase10(int[] number, int length){
 
         int index = length - 1;
         int answer = 0;
-       // System.out.println("Length is: " + index);
+        // System.out.println("Length is: " + index);
         for(Integer i : number ){
-         //   System.out.println("Number: " +i);
+            //   System.out.println("Number: " +i);
             answer =  answer + ((int)Math.pow(4, index)  * i);
             index--;
 
@@ -346,7 +345,7 @@ public class BIOOperations {
         }
         base10Number = this.convertToBase10(toNumber,toNumber.length);
 
-       return base10Number;
+        return base10Number;
 
     }
 
@@ -364,7 +363,7 @@ public class BIOOperations {
         }
 
         for(int i = 0; i < text.length() - k; i++){
-        pattern = getKmers(k);
+            pattern = getKmers(k);
 
 
 
@@ -435,4 +434,86 @@ public class BIOOperations {
 
 
 
+    public long findInClumpWindow(String pattern, StringBuilder dna_sub_string, int number_of_times){
+
+    //    System.out.println("In method!!!!" + dna_sub_string);
+        int count = 0;
+
+        int lastIndex = 0;
+
+        while(lastIndex != -1){
+
+            lastIndex = dna_sub_string.indexOf(pattern, lastIndex);
+
+            if(lastIndex != -1){
+                count++;
+                lastIndex++;
+            }
+
+        }
+        if(count >= number_of_times) {
+
+            System.out.println("[**********] Found in Clump Window " + pattern + " " + count + " Times!");
+            return count;
+        }
+        return 0;
+
+    }
+
+    /**
+     * Find patterns in window of length L. for K distinct K-mers.
+     *
+     * @param L length of window
+     * @param pattern distinct kmer pattern.
+     */
+
+
+    public void findPatternClumps(int L, String pattern, int number_of_times){
+
+        Set<BIOGenomeCount> myClumpSet = new HashSet<>();
+        StringBuilder dna_sub_string;
+
+
+        long strand_length = mDNAStrand.length();
+        int index = 0;
+
+        /**
+         * iterate over the entire string
+         */
+        for(int c = 0; c < strand_length; c++){
+
+            dna_sub_string = new StringBuilder();
+          //  System.out.println(mDNAStrand.toCharArray()[c]);
+
+            for(index = c; index < c + L &&  index < strand_length; index++){
+
+
+            //    System.out.println("[*] Window: "+ mDNAStrand.toCharArray()[index]);
+
+                /**
+                 * put the window sub string into a variable.  This is
+                 * passed into the find method
+                 */
+
+                dna_sub_string.append(  mDNAStrand.charAt(index)) ;
+           //     System.out.println("[**] Building Sub String: " + dna_sub_string);
+            }
+
+            /**
+             * We have our window.  Now search for the pattern in the window.
+             */
+          //   System.out.println("[***] Checking for pattern");
+             this.findInClumpWindow(pattern, dna_sub_string, number_of_times);
+             dna_sub_string = null ;
+
+
+        }
+
+
+
+
+
+    }
+
 }
+
