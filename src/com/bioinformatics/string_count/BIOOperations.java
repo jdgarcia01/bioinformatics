@@ -18,8 +18,11 @@ public class BIOOperations {
     private Set<String> mTmpPattern;
     private String[] mConvertedList;
     private HashMap<Integer,String>frequency_map = new HashMap<>();
+    private Set<String> filter_map = new HashSet<>();
     private List<BIOKmer> frequencyArray = new ArrayList<BIOKmer>();
     private int[] mFrequencyNumber;
+    private List<BIOGenomeCount> mPatternCount = new ArrayList<>();
+    private HashMap<String, Integer> mFreqArray = new HashMap<>();
 
     /**
      * Pass in the sequence we wish to operate on.
@@ -47,18 +50,35 @@ public class BIOOperations {
 
     }
 
-    /**
-     * Method to look for patterns in a DNA String.
-     * This method DOES handle overlaps.
-     * @param pattern
-     * @return count
-     */
+    public ArrayList<Integer> getOccurencePosition(String pattern){
 
-    public int getPatternOccurrence(String pattern){
+        ArrayList<Integer> patternPosition = new ArrayList<>();
 
         int lastIndex = 0;
         int count = 0;
 
+        while(lastIndex != -1){
+
+            lastIndex = mDNAStrand.indexOf(pattern, lastIndex);
+
+            if(lastIndex != -1){
+                count++;
+                 patternPosition.add(lastIndex);
+                lastIndex++;
+                }
+            }
+
+
+
+        return patternPosition;
+
+    }
+
+    public void patternCount(String pattern){
+
+        int lastIndex = 0;
+        int count = 0;
+        ArrayList<Integer> pos_list = new ArrayList<>();
 
         while(lastIndex != -1){
 
@@ -70,13 +90,88 @@ public class BIOOperations {
             }
 
         }
-        return count;
+        mPatternCount.add(new BIOGenomeCount(count, pattern));
+        mFreqArray.put(pattern, count);
+
+
+    }
+    public HashMap<String, Integer> getmFreqArray(){
+        return mFreqArray;
+    }
+
+    public List<BIOGenomeCount> getPatternCountMap(){
+
+        return mPatternCount;
 
     }
 
-    public List<Integer> getPatternOccueencePositions(String pattern){
+    /**
+     * Method to look for patterns in a DNA String.
+     * This method DOES handle overlaps.
+     * @param pattern
+     * @return count
+     */
+
+
+    public int getPatternOccurrence(String pattern){
 
         int lastIndex = 0;
+        int count = 0;
+        ArrayList<Integer> pos_list = new ArrayList<>();
+
+        while(lastIndex != -1){
+
+            lastIndex = mDNAStrand.indexOf(pattern, lastIndex);
+
+            if(lastIndex != -1){
+                count++;
+                if(count > 2){
+
+                //    System.out.println("[*] The start position is: " + lastIndex + " of pattern: " + pattern);
+                    pos_list.add(lastIndex);
+                }
+                lastIndex++;
+            }
+
+        }
+        if( pos_list.size() > 0) {
+            System.out.println("[*] The clump L is: " + pos_list.get(0) + " to " + pos_list.get(pos_list.size() - 1));
+        }
+            return count;
+
+    }
+
+    public int findClumps(String pattern){
+
+        int lastIndex = 0;
+        int len_of_clump = 0;
+        int start_of_clump = 0;
+        int end_of_clump = 0;
+        long pos = 0;
+
+        while(pos != -1){
+
+            pos = mDNAStrand.indexOf(pattern, lastIndex);
+            if(pos != -1) {
+                    System.out.println("[*] Start of position: " + pos);
+                lastIndex++;
+
+            }
+
+        }
+
+        return len_of_clump;
+
+
+
+    }
+
+    public List<Integer> getPatternOccurencePositions(String pattern){
+
+        int lastIndex = 0;
+        int len_of_clump = 0;
+        int start_of_clump = 0;
+        int end_of_clump = 0;
 
         List pos = new ArrayList<Integer>();
 
@@ -85,12 +180,15 @@ public class BIOOperations {
             lastIndex = mDNAStrand.indexOf(pattern, lastIndex);
             if(lastIndex != -1) {
                 pos.add(lastIndex);
-
+                  if(start_of_clump == 0){
+                      start_of_clump = lastIndex;
+                  }
                 System.out.print(lastIndex + " ");
                 lastIndex++;
             }
-
         }
+        len_of_clump = lastIndex - start_of_clump;
+        System.out.println("[*] The length is: " + len_of_clump);
 
         return pos;
 
@@ -125,9 +223,14 @@ public class BIOOperations {
                  * We found a k-mer and now convert it from pattern A,C,G,T => 0,1,2,3
                  */
                 int pattern_to_number = this.patternToNumber(pattern);
-                frequency_map.put(count,pattern );
+                this.patternCount(pattern);
+                if(filter_map.add(pattern) == true) {
+                //    System.out.println("Adding pattern: " + pattern);
+                    frequency_map.put(count, pattern);
+                }
              //   System.out.println("The occurence is: " + count + " pattern: " + pattern + " kmer pattern to number: " + pattern_to_number);
-                  System.out.print(".");
+             //     System.out.print(".");
+
                 /**
                  * Create a new instance of a BIOKmer with pattern, frequency count and pattern number.
                  */
