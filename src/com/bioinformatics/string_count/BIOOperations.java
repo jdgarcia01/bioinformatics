@@ -105,6 +105,7 @@ public class BIOOperations {
     }
 
     /**
+     * *******************************GOOD CODE***************************
      * Method to look for patterns in a DNA String.
      * This method DOES handle overlaps.
      * @param pattern
@@ -134,36 +135,12 @@ public class BIOOperations {
 
         }
         if( pos_list.size() > 0) {
-            System.out.println("[*] The clump L is: " + pos_list.get(0) + " to " + pos_list.get(pos_list.size() - 1));
+        //    System.out.println("[*] The clump L is: " + pos_list.get(0) + " to " + pos_list.get(pos_list.size() - 1));
         }
         return count;
 
     }
 
-    public int findClumps(String pattern){
-
-        int lastIndex = 0;
-        int len_of_clump = 0;
-        int start_of_clump = 0;
-        int end_of_clump = 0;
-        long pos = 0;
-
-        while(pos != -1){
-
-            pos = mDNAStrand.indexOf(pattern, lastIndex);
-            if(pos != -1) {
-                System.out.println("[*] Start of position: " + pos);
-                lastIndex++;
-
-            }
-
-        }
-
-        return len_of_clump;
-
-
-
-    }
 
     public List<Integer> getPatternOccurencePositions(String pattern){
 
@@ -270,6 +247,11 @@ public class BIOOperations {
     }
 
 
+    /**
+     * **************************GOOD CODE
+     * @param list_to_convert
+     * @return
+     */
     private String[] convertNumberToPattern(int[] list_to_convert){
 
         mConvertedList = new String[list_to_convert.length];
@@ -288,6 +270,13 @@ public class BIOOperations {
 
     }
 
+    /**
+     * ***********************GOOD CODE
+     * @param number
+     * @param len
+     * @param base
+     * @return
+     */
     public String[] numberToPattern(int number, int len, int base){
 
         String[] pattern = new String[len];
@@ -307,6 +296,12 @@ public class BIOOperations {
         return pattern;
     }
 
+    /**
+     * *********************GOOD CODE
+     * @param number
+     * @param length
+     * @return
+     */
     public int convertToBase10(int[] number, int length){
 
         int index = length - 1;
@@ -323,7 +318,7 @@ public class BIOOperations {
 
     }
 
-    /**
+    /** GOOD CODE
      * Convert a string pattern to its base 4 number;
      * Example: A C G T = 0,1,2,3.
      * @param pattern
@@ -349,30 +344,7 @@ public class BIOOperations {
 
     }
 
-    public int[] computingFrequency(String text, int k){
 
-        int[] result = new int[4^k];
-        Set<String> pattern = new HashSet<String>();
-        int num = 0;
-
-        /**
-         * Initialize all elements to zero.
-         */
-        for(int i = 0; i < result.length; i++){
-            result[i] = 0;
-        }
-
-        for(int i = 0; i < text.length() - k; i++){
-            pattern = getKmers(k);
-
-
-
-        }
-
-        return result;
-
-
-    }
 
     public void getFrequencyOfList(){
 
@@ -508,6 +480,43 @@ public class BIOOperations {
 
 
         }
+
+
+
+    }
+
+    /**
+     * Generate a Frequency array of a dna sequence.
+     * @param k
+     */
+    public int[] computing_freq(int k){
+
+
+        int[] freq = new int[(int) Math.pow(4,k)];
+
+        ArrayList<Integer> freq_array = new ArrayList<>(200);
+        int j = 0;
+
+        for(int i = 0; i < mDNAStrand.length() - k + 1 ; i++){
+
+            System.out.println("[*] Kmer: " + mDNAStrand.substring(i, i + k));
+            j = this.patternToNumber(mDNAStrand.substring(i,i + k));
+            System.out.println(j);
+            freq[j] += 1;
+
+        }
+
+        return freq;
+
+    }
+
+    /**
+     * Implement the FasterFrequentWords Algorithm.
+     * @param k
+     */
+    public void FaterFrequentWords(int k){
+
+
 
 
 

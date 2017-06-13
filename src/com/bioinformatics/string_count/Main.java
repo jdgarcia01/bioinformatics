@@ -22,8 +22,7 @@ public class Main {
         Set<String> kmers = new HashSet<String>();
         final String pattern = "GACT";
         int len = 9;
-/*        String dna_string = null;
-
+     /*   String dna_string = null;
         try {
              dna_string = new String(Files.readAllBytes(Paths.get("/Users/johngarcia/prog/java/bioinformatics/src/com/bioinformatics/string_count/vibrio.txt")));
 
@@ -31,23 +30,28 @@ public class Main {
 
             System.out.println("Error getting file: " + ex.getMessage());
         } */
-      String dna_string = "CGGACTCGACAGATGTGAAGAACGACAATGTGAAGACTCGACACGACAGAGTGAAGAGAAGAGGAAACATTGTAA";
-
+      String dna_string = "GCGCG";
+        String dna = "ATGCAA";
 
 
 
       BIOOperations bio = BIOOperations.newInstance(dna_string.toUpperCase());
 
-        bio.findPatternClumps(15, "ACA", 1);
+         System.out.println(bio.getPatternOccurrence("GCG"));
+    //    System.out.println(bio.patternToNumber(dna));
+    //    bio.computing_freq(2);
 
-        Set<String> kmer_set = bio.getKmers(len);
+     //   bio.findPatternClumps(15, "ACA", 1);
+
+    /*    Set<String> kmer_set = bio.getKmers(len);
 
         for (String i: kmer_set) {
             System.out.println("[*] Found distinct Kmers: " + i);
+            System.out.println("[*] Searching for clumps for Kmer...");
+            bio.findPatternClumps(500, i, 2);
 
 
-
-        }
+        }  */
 
 
     }
